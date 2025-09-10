@@ -1,0 +1,6 @@
+rubocop:
+  suggestions: true
+  severities:
+    refactor: info
+stylelint:
+  stylelint_executable: "npx stylelint"

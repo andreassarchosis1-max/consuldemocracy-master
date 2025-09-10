@@ -1,0 +1,54 @@
+.public .poll {
+  &.with-image {
+
+    @include breakpoint(medium) {
+      display: flex;
+      padding: 0 calc($line-height / 2) 0 0;
+
+      > * {
+        flex-basis: 25%;
+      }
+
+      .poll-info {
+        flex-basis: 50%;
+      }
+
+      > a {
+        align-self: center;
+      }
+
+      > .poll-info,
+      > a {
+        margin-#{$global-left}: rem-calc(map-get($grid-column-gutter, medium));
+      }
+    }
+  }
+
+  .image-container {
+    background: #fafafa;
+    overflow: hidden;
+    position: relative;
+
+    img {
+      height: 100%;
+      max-width: none;
+      position: absolute;
+    }
+  }
+
+  .dates {
+    color: $text-medium;
+    font-size: $small-font-size;
+    margin-bottom: calc($line-height / 2);
+  }
+
+  h4 {
+    font-size: rem-calc(30);
+    line-height: $line-height * 1.5;
+
+    a {
+      color: inherit;
+      display: inline-block;
+    }
+  }
+}

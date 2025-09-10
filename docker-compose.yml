@@ -1,0 +1,45 @@
+services:
+  # service configuration for our database
+  database:
+
+    # use the preferred version of the official Postgres image
+    # see https://hub.docker.com/_/postgres/
+    image: postgres:13.16
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+    # persist the database between containers by storing it in a volume
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  # service configuration for our dockerized Rails app
+  app:
+
+    # use the Dockerfile next to this file
+    build: .
+
+    # rely on the RAILS_ENV value of the host machine
+    # environment:
+    #RAILS_ENV: $RAILS_ENV
+
+    # makes the app container aware of the DB container
+    depends_on:
+      - database
+
+    # expose the port we configured Unicorn to bind to
+    ports:
+      - "3000:3000"
+    # map our application source code, in full, to the application root of our container
+    volumes:
+      - .:/var/www/consul
+      - bundle:/usr/local/bundle
+      - node_modules:/var/www/consul/node_modules
+    environment:
+      - DB_HOST=database # Same name as the database service
+      - PGUSER=postgres
+      - PGPASSWORD=${PGPASSWORD-$POSTGRES_PASSWORD}
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+volumes:
+  db_data: {}
+  bundle: {}
+  node_modules: {}
